@@ -1,0 +1,21 @@
+﻿    @model SN.Models.ConfirmationModel
+    @{
+        ViewBag.Title = "Confirmation";
+    }
+
+    <link rel="stylesheet" href="~/css/bootstrap.css">
+    <script src="~/js/bootstrap.min.js" type="text/javascript"></script>
+
+    <head>
+        <title>Confirmation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <hgroup class="title">
+        <h1>@ViewBag.Title</h1>
+    </hgroup>
+
+    @using (Html.BeginForm())
+    {
+        @ViewBag.Message
+    }

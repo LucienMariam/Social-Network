@@ -1,0 +1,113 @@
+﻿@using SN.Models;
+@{
+    ViewBag.Title = ViewBag.Username;
+}
+
+
+<script src="~/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="~/Scripts/Messages.js" type="text/javascript"></script>
+    <script src="~/js/jquery-1.10.2.js"></script>
+    <script src="~/js/bootstrap.js"></script>
+<head>
+    <link rel="stylesheet" href="~/css/bootstrap.css">
+    <script src="~/Scripts/LucoList.js" type="text/javascript"></script>
+    <title class="title">
+    @ViewBag.Title
+    </title>   
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+</head>
+
+
+@using (Html.BeginForm())
+{
+
+<div class="container">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <h1 class="page-header">@ViewBag.Username
+                </h1>
+     
+                    @if(ViewBag.Username != User.Identity.Name)
+                    {
+                        <div id="like" class="glyphicon glyphicon-thumbs-up"><p>@ViewBag.LikesCount</p><a>@Html.ActionLink("Like", "AddLike", "Profile", new { username = @ViewBag.Username }, null)</a></div>          
+                        <div id="dislike" class="glyphicon glyphicon-thumbs-down"><p>@ViewBag.DisLikesCount</p>@Html.ActionLink("Dislike", "AddDisLike", "Profile",   new { username = @ViewBag.Username }, null)</div>
+                    }
+                    else
+                    {
+                            <div id="mylike" class="glyphicon glyphicon-thumbs-up"><p>@ViewBag.LikesCount</p></div>            
+                            <div id="mydislike" class="glyphicon glyphicon-thumbs-down"><p>@ViewBag.DisLikesCount</p></div>                   
+                    }
+
+
+                    
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5 col-md-6">
+                <img class="img-responsive" src="@Url.Content(ViewBag.Photo as string)">
+            </div>
+            <div class="clearfix visible-xs"></div>
+            <div class="col-sm-5 col-sm-offset-2 col-md-6 col-md-offset-0">
+                
+                <h3 id="inftitle" style="cursor:pointer">Short information</h3>
+                    <ul id="h">
+                    <li>E-mail: @ViewBag.Email</li>
+                    <li>Birthday: @ViewBag.BirthDate</li>
+                    <li>Sex: @ViewBag.Sex</li>
+                    @if (ViewBag.IsSearching)
+                    {
+                        <li> @ViewBag.Username is looking for a sex partner</li>
+                    }
+                    <li>Sex preferences: @ViewBag.SexPreferences</li>
+                    <li>Interests: @ViewBag.Interests</li>
+                    </ul>
+
+                <h3 id="abouttitle" style="cursor:pointer">About @ViewBag.Username</h3>
+                <ul id="about">@ViewBag.About</ul>
+            </div>
+
+            
+
+        </div>
+    @if(ViewBag.Username != User.Identity.Name)
+    {
+    <div class="row">
+    <div class="col-sm-5 col-md-6">
+
+                <p class="lead"><strong><em>@Html.ActionLink(("Click here to send message for " + @ViewBag.Username) as string, "SendMessage", "Messages",   new { username = @ViewBag.Username }, null)</em></strong></p>
+       </div>     
+    </div>
+    }
+    <div class="container">
+
+    @if(ViewBag.CountPhotoGallery > 0)
+    {
+        <div class="row">
+        <h1 class="page-header">Photo gallery</h1>
+        
+        @for(int i = 0; i < ViewBag.CountPhotoGallery; i ++)
+        {
+            <div class="col-md-3 col-sm-4 col-xs-6">
+            
+            <img class="img-responsive" src="@Url.Content(ViewBag.PhotoGallery[i] as string)" />
+
+            </div>
+        }
+            </div>
+        <div class="row">
+        <p class="lead"><strong><em>@Html.ActionLink("Show all photo gallery", "PhotoGallery", "Profile",   new { username = @ViewBag.Username }, null)</em></strong></p>
+        </div>
+    }
+
+
+    </div>
+
+    </div>
+                
+}

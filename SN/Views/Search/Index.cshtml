@@ -1,0 +1,76 @@
+﻿@model SN.Models.SearchModel
+@{
+    ViewBag.Title = "The social network";
+}
+<link rel="stylesheet" href="~/css/bootstrap.css">
+<script src="~/js/bootstrap.min.js" type="text/javascript"></script>
+
+    <head>
+        <title>Searching</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="~/css/mostpopular.css">
+    </head>
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title</h1>
+            </hgroup>
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm())
+{ 
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                Age: minimum @Html.DropDownListFor(m=>m.MinAge, new SelectList(ViewBag.Ages, 7))
+                maximum @Html.DropDownListFor(m=>m.MaxAge, new SelectList(ViewBag.Ages, 140))</div>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                @Html.LabelFor(m => m.FilterBySex, new { @class = "checkbox" })
+                @Html.CheckBoxFor(m => m.FilterBySex)
+                Sex: @Html.EnumDropDownListFor(m => m.WhichSex)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-4 col-xs-6">
+            Username: @Html.TextBoxFor(m => m.Username)</div>
+        </div>
+        <div class="row">
+            <p></p>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+            full-text searching: @Html.TextAreaFor(m => m.Text)
+            </div>
+        </div>
+        <div class="row">
+            <p></p>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <Button class="btn" type="submit" value="Search">Search</Button>
+            </div>
+        </div>
+    @for(int i = 0; i < ViewBag.count; i +=3)
+    {
+        <div class="row">       
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <p class="text-info"><strong>@Html.ActionLink(ViewBag.usernames[i] as string, "ViewProfile", "Profile",   new { username = @ViewBag.usernames[i] }, null)</strong></p>
+                <img class="img-responsive" src="@Url.Content(ViewBag.userphotos[i] as string)"/>
+            </div>
+            @if (i+1 >= ViewBag.count)
+            { break; }
+            <div class="col-md-3 col-sm-4 col-xs-6">           
+                <p class="text-info"><strong>@Html.ActionLink(ViewBag.usernames[i+1] as string, "ViewProfile", "Profile",   new { username = @ViewBag.usernames[i+1] }, null)</strong></p>
+                <img class="img-responsive" src="@Url.Content(ViewBag.userphotos[i+1] as string)"/>
+            </div>
+            @if (i+2 >= ViewBag.count)
+            { break; }
+            <div class="col-md-3 col-sm-4 col-xs-6">            
+                <p class="text-info"><strong>@Html.ActionLink(ViewBag.usernames[i+2] as string, "ViewProfile", "Profile",   new { username = @ViewBag.usernames[i+2] }, null)</strong></p>
+                <img class="img-responsive" src="@Url.Content(ViewBag.userphotos[i+2] as string)"/>
+            </div>
+        </div>
+    }
+    </div>
+}
